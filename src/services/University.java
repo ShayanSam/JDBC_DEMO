@@ -8,7 +8,6 @@ import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
-
 import static models.Student.printStudents;
 import static models.StudentTeacher.printStudentTeacher;
 import static models.Teacher.printTeachers;
@@ -41,12 +40,12 @@ public class University {
 
     }
 
-    public void addToStudentTeacher(StudentTeacher studentTeacher) {
+    public void addToStudentTeacher(int teacherId, int studentId) {
         try (Connection connection = ConnectionFactory.getConnection();
              PreparedStatement preparedStatement = connection.prepareStatement
                      ("INSERT INTO student_teacher(teacher_id, student_id) VALUES (?,?)")) {
-            preparedStatement.setInt(1,studentTeacher.getTeacherId());
-            preparedStatement.setInt(2, studentTeacher.getStudentId());
+            preparedStatement.setInt(1,teacherId);
+            preparedStatement.setInt(2, studentId);
             preparedStatement.executeUpdate();
         } catch (SQLException sqlException) {
             sqlException.printStackTrace();
@@ -82,6 +81,20 @@ public class University {
 
     }
 
+    public void alterStudentTeacher(int stId, StudentTeacher studentTeacher) {
+        try (Connection connection = ConnectionFactory.getConnection();
+             PreparedStatement preparedStatement = connection.prepareStatement
+                     ("UPDATE student_teacher SET teacher_id = ? , student_id = ? WHERE st_id = ?")) {
+            preparedStatement.setInt(1, studentTeacher.getTeacherId());
+            preparedStatement.setInt(2,studentTeacher.getStudentId());
+            preparedStatement.setInt(3,stId);
+            preparedStatement.executeUpdate();
+        } catch (SQLException sqlException) {
+            sqlException.printStackTrace();
+        }
+
+    }
+
     public void deleteStudent(int id) {
         try (Connection connection = ConnectionFactory.getConnection();
              PreparedStatement preparedStatement = connection.prepareStatement
@@ -108,6 +121,18 @@ public class University {
             preparedStatement.executeUpdate();
             preparedStatement1.setInt(1,id);
             preparedStatement1.executeUpdate();
+        } catch (SQLException sqlException) {
+            sqlException.printStackTrace();
+        }
+
+    }
+
+    public void deleteStudentTeacher(int stId) {
+        try (Connection connection = ConnectionFactory.getConnection();
+             PreparedStatement preparedStatement = connection.prepareStatement
+                     ("DELETE FROM student_teacher WHERE st_id = ?")) {
+            preparedStatement.setInt(1,stId);
+            preparedStatement.executeUpdate();
         } catch (SQLException sqlException) {
             sqlException.printStackTrace();
         }
@@ -165,13 +190,7 @@ public class University {
             sqlException.printStackTrace();
         }
 
-
     }
-
-
-
-
-
 
 }
 
