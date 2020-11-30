@@ -6,10 +6,10 @@ public class Teacher {
     private String teacherLastName;
     private int teacherId;
 
-    public Teacher(String teacherFirstName, String teacherLastName, int teacherId) {
+    public Teacher(String teacherFirstName, String teacherLastName) {
         this.teacherFirstName = teacherFirstName;
         this.teacherLastName = teacherLastName;
-        this.teacherId = teacherId;
+
     }
 
     public String getTeacherFirstName() {

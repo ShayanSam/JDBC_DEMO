@@ -5,20 +5,25 @@ public class StudentTeacher {
     private int teacherId;
     private  int studentId;
 
-    public int getTeacherId() {
-        return teacherId;
+    public StudentTeacher(int teacherId, int studentId) {
+        this.teacherId = teacherId;
+        this.studentId = studentId;
     }
 
-    public void setTeacherId(int teacherId) {
-        this.teacherId = teacherId;
+    public int getTeacherId() {
+        return teacherId;
     }
 
     public int getStudentId() {
         return studentId;
     }
 
-    public void setStudentId(int studentId) {
-        this.studentId = studentId;
+    @Override
+    public String toString() {
+        return "StudentTeacher{" +
+                "teacherId=" + teacherId +
+                ", studentId=" + studentId +
+                '}';
     }
 }
 
