@@ -1,5 +1,8 @@
 package models;
 
+import java.sql.ResultSet;
+import java.sql.SQLException;
+
 public class Student {
 
     private  String studentFirstName;
@@ -34,6 +37,19 @@ public class Student {
 
     public void setStudentId(int studentId) {
         this.studentId = studentId;
+    }
+
+    public static void printStudents(ResultSet resultSet) throws SQLException {
+        System.out.println("********************************************************************************************************");
+        while (resultSet.next()) {
+            System.out.print("student ID: " + resultSet.getString("id"));
+            System.out.print("\t\t\t");
+            System.out.print("student first name: " + resultSet.getString("student_first_name"));
+            System.out.print("\t\t\t");
+            System.out.print("student last name: " + resultSet.getString("student_last_name"));
+            System.out.print("\t\t\t");
+            System.out.println();
+        }
     }
 
     @Override

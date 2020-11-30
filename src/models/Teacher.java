@@ -1,5 +1,8 @@
 package models;
 
+import java.sql.ResultSet;
+import java.sql.SQLException;
+
 public class Teacher {
 
     private String teacherFirstName;
@@ -36,6 +39,19 @@ public class Teacher {
         this.teacherId = teacherId;
     }
 
+    public static void printTeachers(ResultSet resultSet) throws SQLException {
+        System.out.println("********************************************************************************************************");
+        while (resultSet.next()) {
+            System.out.print("teacher ID: " + resultSet.getString("id"));
+            System.out.print("\t\t\t");
+            System.out.print("teacher first name: " + resultSet.getString("teacher_first_name"));
+            System.out.print("\t\t\t");
+            System.out.print("teacher last name: " + resultSet.getString("teacher_last_name"));
+            System.out.print("\t\t\t");
+            System.out.println();
+        }
+    }
+
     @Override
     public String toString() {
         return "Teacher{" +
@@ -44,4 +60,6 @@ public class Teacher {
                 ", teacherId=" + teacherId +
                 '}';
     }
+
+
 }

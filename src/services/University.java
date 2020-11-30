@@ -9,6 +9,9 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 
+import static models.Student.printStudents;
+import static models.StudentTeacher.printStudentTeacher;
+import static models.Teacher.printTeachers;
 
 
 public class University {
@@ -89,7 +92,6 @@ public class University {
            preparedStatement.executeUpdate();
            preparedStatement1.setInt(1,id);
            preparedStatement1.executeUpdate();
-            preparedStatement.executeUpdate();
         } catch (SQLException sqlException) {
             sqlException.printStackTrace();
         }
@@ -106,28 +108,35 @@ public class University {
             preparedStatement.executeUpdate();
             preparedStatement1.setInt(1,id);
             preparedStatement1.executeUpdate();
-            preparedStatement.executeUpdate();
         } catch (SQLException sqlException) {
             sqlException.printStackTrace();
         }
 
     }
 
+    public void showStudentsForSpecificTeacher(int id){
+        try (Connection connection = ConnectionFactory.getConnection();
+             PreparedStatement preparedStatement = connection.prepareStatement
+                     ("SELECT *\n" +
+                             "FROM student WHERE id IN(\n" +
+                             "SELECT student_id \n" +
+                             "FROM student_teacher WHERE teacher_id = ?)")) {
+            preparedStatement.setInt(1,id);
+            ResultSet resultSet = preparedStatement.executeQuery();
+            printStudents(resultSet);
+        } catch (SQLException sqlException) {
+            sqlException.printStackTrace();
+        }
+
+
+    }
+
     public void showStudents() {
         try (Connection connection = ConnectionFactory.getConnection();
              PreparedStatement preparedStatement = connection.prepareStatement
-                     ("select * from student");
+                     ("SELECT * FROM student");
              ResultSet resultSet = preparedStatement.executeQuery()) {
-            while (resultSet.next()) {
-                System.out.print("student ID: " + resultSet.getString("id"));
-                System.out.print("\t\t\t");
-                System.out.print("student first name: " + resultSet.getString("student_first_name"));
-                System.out.print("\t\t\t");
-                System.out.print("student last name: " + resultSet.getString("student_last_name"));
-                System.out.print("\t\t\t");
-                System.out.println();
-            }
-
+             printStudents(resultSet);
         } catch (SQLException sqlException) {
             sqlException.printStackTrace();
         }
@@ -137,23 +146,28 @@ public class University {
     public void showTeachers() {
         try (Connection connection = ConnectionFactory.getConnection();
              PreparedStatement preparedStatement = connection.prepareStatement
-                     ("select * from teacher");
+                     ("SELECT * FROM teacher");
              ResultSet resultSet = preparedStatement.executeQuery()) {
-            while (resultSet.next()) {
-                System.out.print("teacher ID: " + resultSet.getString("id"));
-                System.out.print("\t\t\t");
-                System.out.print("teacher first name: " + resultSet.getString("teacher_first_name"));
-                System.out.print("\t\t\t");
-                System.out.print("teacher last name: " + resultSet.getString("teacher_last_name"));
-                System.out.print("\t\t\t");
-                System.out.println();
-            }
-
+             printTeachers(resultSet);
         } catch (SQLException sqlException) {
             sqlException.printStackTrace();
         }
 
     }
+
+    public void showStudentTeacher(){
+        try (Connection connection = ConnectionFactory.getConnection();
+             PreparedStatement preparedStatement = connection.prepareStatement
+                     ("SELECT * FROM student_teacher");
+             ResultSet resultSet = preparedStatement.executeQuery()) {
+             printStudentTeacher(resultSet);
+        } catch (SQLException sqlException) {
+            sqlException.printStackTrace();
+        }
+
+
+    }
+
 
 
 
