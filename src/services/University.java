@@ -79,6 +79,40 @@ public class University {
 
     }
 
+    public void deleteStudent(int id) {
+        try (Connection connection = ConnectionFactory.getConnection();
+             PreparedStatement preparedStatement = connection.prepareStatement
+                     ("DELETE FROM student_teacher WHERE student_id = ?")) {
+            PreparedStatement preparedStatement1 = connection.prepareStatement
+                    ("DELETE FROM student WHERE id = ?");
+           preparedStatement.setInt(1,id);
+           preparedStatement.executeUpdate();
+           preparedStatement1.setInt(1,id);
+           preparedStatement1.executeUpdate();
+            preparedStatement.executeUpdate();
+        } catch (SQLException sqlException) {
+            sqlException.printStackTrace();
+        }
+
+    }
+
+    public void deleteTeacher(int id) {
+        try (Connection connection = ConnectionFactory.getConnection();
+             PreparedStatement preparedStatement = connection.prepareStatement
+                     ("DELETE FROM student_teacher WHERE teacher_id = ?")) {
+            PreparedStatement preparedStatement1 = connection.prepareStatement
+                    ("DELETE FROM teacher WHERE id = ?");
+            preparedStatement.setInt(1,id);
+            preparedStatement.executeUpdate();
+            preparedStatement1.setInt(1,id);
+            preparedStatement1.executeUpdate();
+            preparedStatement.executeUpdate();
+        } catch (SQLException sqlException) {
+            sqlException.printStackTrace();
+        }
+
+    }
+
     public void showStudents() {
         try (Connection connection = ConnectionFactory.getConnection();
              PreparedStatement preparedStatement = connection.prepareStatement

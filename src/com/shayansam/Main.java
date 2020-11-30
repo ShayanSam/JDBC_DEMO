@@ -8,11 +8,11 @@ public class Main {
 
     public static void main(String[] args) {
         University university = new University();
-        Student student = new Student("Tom","Petty");
 
 
-//        university.addNewStudent(student);
-        university.alterStudent(3,student);
+
+
+        university.deleteTeacher(4);
         university.showStudents();
     }
 }
